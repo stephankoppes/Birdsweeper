@@ -1,3 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100hv;
+    font-family: "Poppins", sans-serif;
+    background-color: bisque;
+}
+
 h1 {
     font-size: 90px;
     font-family: "EB Garamond", serif;
