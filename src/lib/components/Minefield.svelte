@@ -5,17 +5,20 @@
 -->
 
 <script lang="ts">
-  import Phoenix from "$lib/assets/icon-phoenix.svelte";
-  import Bird from "$lib/assets/icon-bird.svelte";
-  import One from "$lib/assets/icon-one.svelte";
-  import Two from "$lib/assets/icon-two.svelte";
-  import Three from "$lib/assets/icon-three.svelte";
-  import Four from "$lib/assets/icon-four.svelte";
-  import Five from "$lib/assets/icon-five.svelte";
+  import Bird from "$lib/assets/svg-bird.svelte";
+  import One from "$lib/assets/svg-one.svelte";
+  import Two from "$lib/assets/svg-two.svelte";
+  import Three from "$lib/assets/svg-three.svelte";
+  import Four from "$lib/assets/svg-four.svelte";
+  import Five from "$lib/assets/svg-five.svelte";
+  import Six from "$lib/assets/svg-five.svelte";
+  import Seven from "$lib/assets/svg-five.svelte";
+  import Eight from "$lib/assets/svg-five.svelte";
+  
   let fieldCols = 8;
   let fieldRows = 8;
   let birdsTotal = 10;
-  // let birdLocations = ['1-3', '2-5', '4-4', '6-1', '0-7', '3-2', '5-5', '7-0', '2-2', '3-6'];
+  let adjacentBirds = 0;
   let birdLocations = CreateBirdLocations(fieldCols, fieldRows, birdsTotal);
 
   function ShowId(idName: string) {
@@ -23,14 +26,43 @@
   }
 
   function CreateBirdLocations(maxCol: number, maxRow: number, totalBirds: number) {
-    // TO DO: Create random bird locations based on birdsTotal variable
-    let data = [];
+    let data: Array<{ x: number; y: number }> = [];
     for (let i = 0; i < totalBirds; i++) {
-      data.push({x: Math.floor(Math.random() * maxRow), y: Math.floor(Math.random() * maxCol)});
+      let unique = false;
+      while (!unique) {
+        let newX = Math.floor(Math.random() * maxRow);
+        let newY = Math.floor(Math.random() * maxCol);
+        if (!data.some(bird => bird.x == newX && bird.y == newY)) {
+          data.push({x: newX, y: newY});
+          unique = true;
+        }
+      }
     }
-    console.log('Random bird locations:', data);
-
     return data;
+  }
+
+  function FindAdjacentBirds(x: number, y: number) {
+    // TO DO: Create function to find number of adjacent birds
+    let count = 0;
+    
+    // Check row (x) above
+    if (y > 0) {
+      if (birdLocations.some(bird => bird.x == x - 1 && bird.y == y - 1)) count++;
+      if (birdLocations.some(bird => bird.x == x     && bird.y == y - 1)) count++;
+      if (birdLocations.some(bird => bird.x == x + 1 && bird.y == y - 1)) count++;
+    }
+
+    // Check same row (x)
+    if (birdLocations.some(bird => bird.x == x - 1 && bird.y == y)) count++;
+    if (birdLocations.some(bird => bird.x == x     && bird.y == y)) count++;
+    if (birdLocations.some(bird => bird.x == x + 1 && bird.y == y)) count++;
+
+    // Check row (x) below
+    if (birdLocations.some(bird => bird.x == x - 1 && bird.y == y + 1)) count++;
+    if (birdLocations.some(bird => bird.x == x     && bird.y == y + 1)) count++;
+    if (birdLocations.some(bird => bird.x == x + 1 && bird.y == y + 1)) count++;
+
+    return count;
   }
 
 </script>
@@ -46,9 +78,24 @@
                 {#if birdLocations.some(bird => bird.x == row && bird.y == col)}
                   <Bird />
                 {:else}
-                  <p class="field-number">{row}-{col}</p>
-                  <!-- TO DO: Run function to determine the number of adjacent birds
-                              and display appropriate number icon -->
+                  {@const adjacentBirds = FindAdjacentBirds(row, col)}
+                  {#if adjacentBirds == 1}
+                    <One />
+                  {:else if adjacentBirds == 2}
+                    <Two />
+                  {:else if adjacentBirds == 3}
+                    <Three />
+                  {:else if adjacentBirds == 4}
+                    <Four />
+                  {:else if adjacentBirds == 5}
+                    <Five />
+                  {:else if adjacentBirds == 6}
+                    <Six />
+                  {:else if adjacentBirds == 7}
+                    <Seven />
+                  {:else if adjacentBirds == 8}
+                    <Eight />
+                  {/if}
                 {/if}
               </button>
             </div>
@@ -91,18 +138,18 @@
   .cell {
     display: flex;
     width: 60px;
-    border: 1px solid blue;
-    background-color: cornflowerblue;
+    border: 1px solid bisque;
+    background-color: rgb(123, 163, 239);
     color: white;
     align-items: center;
     justify-content: center;
   }
 
-  .field-number {
+  /* .field-number {
     font-family: Verdana, sans-serif;
     font-size: 16px;
     font-weight: 500;
-  }
+  } */
 
   .minefield-button {
     background-color: transparent;
