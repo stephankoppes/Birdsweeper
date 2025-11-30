@@ -10,15 +10,8 @@
 -->
 
 <script lang="ts">
-  import Bird from "$lib/assets/svg-bird.svelte";
-  import One from "$lib/assets/svg-one.svelte";
-  import Two from "$lib/assets/svg-two.svelte";
-  import Three from "$lib/assets/svg-three.svelte";
-  import Four from "$lib/assets/svg-four.svelte";
-  import Five from "$lib/assets/svg-five.svelte";
-  import Six from "$lib/assets/svg-five.svelte";
-  import Seven from "$lib/assets/svg-five.svelte";
-  import Eight from "$lib/assets/svg-five.svelte";
+  import { BirdSvg, OneSvg, TwoSvg, ThreeSvg, FourSvg, FiveSvg, SixSvg, SevenSvg, EightSvg } from "$lib/vector";
+  import GridButton from "./GridButton.svelte";
   
   let fieldCols = 8;    // X-col axis
   let fieldRows = 12;   // Y-row axis
@@ -79,34 +72,28 @@
           {#each { length: fieldCols }, col}
             <div class="cell">
               <button class="cell-button" id="{row}-{col}" onclick={() => ShowCell(col, row)}>
-                <!-- {#if !cellClicked}
-                  <div class="cell-unclicked">No</div>
-                {:else}
-                  <div class="cell-clicked">yes</div>
-                {/if} -->
-                
                 {#if birdLocations.some(bird => bird.x == col && bird.y == row)}
-                  <Bird />
+                  <GridButton btnValue={-1} />
                 {:else}
                   {@const adjacentBirds = FindAdjacentBirds(col, row)}
                   {#if adjacentBirds == 1}
-                    <One />
+                    <GridButton btnValue={1} />
                   {:else if adjacentBirds == 2}
-                    <Two />
+                    <GridButton btnValue={2} />
                   {:else if adjacentBirds == 3}
-                    <Three />
+                    <GridButton btnValue={3} />
                   {:else if adjacentBirds == 4}
-                    <Four />
+                    <GridButton btnValue={4} />
                   {:else if adjacentBirds == 5}
-                    <Five />
+                    <GridButton btnValue={5} />
                   {:else if adjacentBirds == 6}
-                    <Six />
+                    <GridButton btnValue={6} />
                   {:else if adjacentBirds == 7}
-                    <Seven />
+                    <GridButton btnValue={7} />
                   {:else if adjacentBirds == 8}
-                    <Eight />
+                    <GridButton btnValue={8} />
                   {:else}
-                    <div class="cell-clicked"></div>
+                    <GridButton btnValue={0} />
                   {/if}
                 {/if}
               </button>
@@ -154,18 +141,6 @@
     background-color: rgb(123, 163, 239);
     align-items: center;
     justify-content: center;
-  }
-
-  .cell-unclicked {
-    height: 54px;
-    width: 54px;
-    background-color: rgb(211, 211, 211);
-  }
-
-  .cell-clicked {
-    height: 54px;
-    width: 54px;
-    background-color: rgb(123, 163, 239);
   }
 
   .cell-button {

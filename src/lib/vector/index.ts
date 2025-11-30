@@ -1,0 +1,11 @@
+export { default as BirdSvg } from './BirdSvg.svelte';
+export { default as BlankSvg } from './BlankSvg.svelte';
+export { default as SquareSvg } from './SquareSvg.svelte';
+export { default as OneSvg } from './OneSvg.svelte';
+export { default as TwoSvg } from './TwoSvg.svelte';
+export { default as ThreeSvg } from './ThreeSvg.svelte';
+export { default as FourSvg } from './FourSvg.svelte';
+export { default as FiveSvg } from './FiveSvg.svelte';
+export { default as SixSvg } from './SixSvg.svelte';
+export { default as SevenSvg } from './SevenSvg.svelte';
+export { default as EightSvg } from './EightSvg.svelte';
